@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html>
+
+    <head>
+        <title>Like Effect Generator</title>
+        <style type="text/css">
+        body {
+            background : white;
+        }
+        </style>
+    </head>
+
+    <body>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/rgbcolor.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/StackBlur.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/canvg.js"></script>
+        <script type="text/javascript" src="LikeEffectGenerator.js"></script>
+        <script type="text/javascript" src="SVGToCanvas.js"></script>
+
+        <div id="col1">
+
+        </div>
+        <div id="col2">
+
+        </div>
+        <div id="col3">
+
+        </div>
+        <div id="col4">
+
+        </div>
+
+        <script language="JavaScript" type="text/javascript">
+        for(var idx = 1;idx <= 4; idx++){
+            var columnBlock = document.getElementById('col' + idx);
+            for(var j = 1; j <= 20; j++){
+                var svgBlock = generateFrame((idx - 1) * 20 + j, 200);
+                var tempBlock = document.createElement('span');
+                tempBlock.appendChild(svgBlock);
+                var canvasBlock = generateCanvasFromSVG(tempBlock.innerHTML, 200);
+                columnBlock.appendChild(canvasBlock);
+                // alert("i = " + idx + ",j = " + j);
+            }
+        }
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html>
+
+    <head>
+        <title>Like Effect Generator</title>
+        <style type="text/css">
+        body {
+            background : white;
+        }
+        </style>
+    </head>
+
+    <body>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/rgbcolor.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/StackBlur.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/canvg.js"></script>
+        <script type="text/javascript" src="jsgif/LZWEncoder.js"></script>
+        <script type="text/javascript" src="jsgif/NeuQuant.js"></script>
+        <script type="text/javascript" src="jsgif/GIFEncoder.js"></script>
+        <script type="text/javascript" src="jsgif/b64.js"></script>
+        <script type="text/javascript" src="LikeEffectGenerator.js"></script>
+        <script type="text/javascript" src="SVGToCanvas.js"></script>
+
+        <div id="col">
+
+        </div>
+
+        <script language="JavaScript" type="text/javascript">
+        var size = 200;
+
+        var tempBlock = document.createElement('img');
+        var encoder = new GIFEncoder();
+        encoder.setRepeat(0);
+        encoder.setFrameRate(60.0);
+        encoder.setQuality(10);
+        encoder.start();
+
+        for(var idx = 1;idx <= 80; idx++){
+            var svgBlock = generateFrame(idx, size);
+            var tempBlock2 = document.createElement('span');
+            tempBlock2.appendChild(svgBlock);
+            var canvasBlock = generateCanvasFromSVG(tempBlock2.innerHTML, size);
+            // document.getElementById('col').appendChild(canvasBlock);
+            encoder.addFrame(canvasBlock.getContext('2d'));
+        }
+
+        encoder.finish();
+        var binaryGIF = encoder.stream().getData(); //notice this is different from the as3gif package!
+        var dataURL = 'data:image/gif;base64,' + encode64(binaryGIF);
+
+        tempBlock.src = dataURL;
+        document.getElementById('col').appendChild(tempBlock);
+
+        </script>
+    </body>
+
+</html>

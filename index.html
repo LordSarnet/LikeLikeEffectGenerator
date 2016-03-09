@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+    <html>
+
+    <head>
+        <title>いいねボタン風エフェクトアニメジェネレータ</title>
+        <style type="text/css">
+            body {
+                background: white;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="lib/HTML-KickStart-master/js/kickstart.js"></script>
+        <!-- KICKSTART -->
+        <link rel="stylesheet" href="lib/HTML-KickStart-master/css/kickstart.css" media="all" />
+        <!-- KICKSTART -->
+        <!-- jscolor Color Picker -->
+        <!--script src="lib/jscolor/jscolor.js"></script-->
+        <link rel="stylesheet" href="lib/custom.css" />
+    </head>
+
+    <body class="override">
+
+        <a href="https://github.com/you" class="hide-phone"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67"
+            alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
+
+        <div class="header">
+            <div class="inner">
+                <img src="res/Top.svg" style="float: left" />
+                <div style="height: 3em;">
+
+                </div>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja" data-hashtags="いいね風エフェクトアニメジェネレータ">ツイート</a>
+                <script>
+                    ! function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0],
+                            p = /^http:/.test(d.location) ? 'http' : 'https';
+                        if (!d.getElementById(id)) {
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = p + '://platform.twitter.com/widgets.js';
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }
+                    }(document, 'script', 'twitter-wjs');
+                </script>
+
+
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="col_12 center">
+                <div class="file-drop-area block-center">
+                    <input id="localImgFile" type="file" class="file-drop-area" onchange="loadImg();" />
+                    <div class="block-center">
+                        <div class="custom-design">
+                            ここに使いたい画像ファイルをドラッグ＆ドロップ！
+                            <br/> (もしくはここをクリックでファイルダイアログを開いて選択)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col_12 center" id="confirmLocalImg" style="display: none;">
+
+            </div>
+            <div class="col_12 center">
+                <button class="" id="generateButton1" style="width : 240px;" onclick="generateLikeGIF();" disabled="disabled">生成！</button>
+                <button id="downloadGIFButton1" style="width : 240px;" class="" onclick="getGIF();" disabled="disabled">GIFアニメをダウンロード</button>
+            </div>
+            <div class="col_12">
+                <img class="block-center" id="targetImg" src="" style="display: none;">
+            </div>
+            <div class="col_12 center" style="display: none;" id="progressBlock">
+                <progress value="0" max="10" id="progressBar"></progress>
+                <p id="progressMessage">
+                </p>
+
+            </div>
+            <div class="col_12" id="debugOut">
+
+            </div>
+
+            <h4>もっと細かくいじる</h4>
+            <ul class="tabs left">
+                <li><a href="#pref1">出現画像</a></li>
+                <li><a href="#pref2">弾ける大きな丸のエフェクト</a></li>
+                <li><a href="#pref3">飛び散る小さな丸のエフェクト</a></li>
+                <li><a href="#pref4">高度な設定</a></li>
+            </ul>
+
+            <div id="pref1" class="tab-content">
+                <!-- 出力サイズ/出現画像に関する設定 -->
+                <div class="grid">
+                    <div class="col_12">
+                        <label for="generateSize" class="inline">出力サイズ(px) : </label>
+                        <input id="generateSize" value="200">
+                        <span style="width: 20px;"></span>
+                        <button class="orange" onclick="confirmImageSize();">出力サイズを確認する</button>
+                        <p class="warning">
+                            GIFアニメを生成していた場合、「出力サイズを確認する」を実行すると破棄されてしまいますのでご注意下さい。
+                        </p>
+                    </div>
+                    <div class="col_6">
+                        <input type="checkbox" id="trimmingCircle" checked="" />
+                        <label for="trimmingCircle" class="inline">画像を円形にトリミングする</label>
+                        <br />
+                    </div>
+                    <div class="col_6">
+                        <input type="checkbox" id="enableUnpushed" />
+                        <label for="enableUnpushed" class="inline">押されていない時風の画像を付加する</label>
+                    </div>
+                    <div class="col_12">
+                        <p class="warning">
+                            「押されていない時風の画像を付加する」は、透明度が設定されている画像のみ正常に動作します。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pref2" class="tab-content">
+                <!-- 大きい丸のエフェクト -->
+                <div class="grid">
+                    <div class="col_6">
+                        <label for="popCircleStartColor" class="inline">出現時の色 : </label>
+                        <input id="popCircleStartColor" value="#DA0B3F" class="color">
+                    </div>
+                    <div class="col_6">
+                        <label for="popCircleEndColor" class="inline">消滅時の色 : </label>
+                        <input id="popCircleEndColor" value="#D7AAED" class="color">
+                    </div>
+                </div>
+            </div>
+
+            <div id="pref3" class="tab-content">
+                <!-- 小さい丸のエフェクト -->
+                <fieldset>
+                    <legend>色の付け方</legend>
+                    <input type="radio" name="particleColorType" id="pct1" value="0" checked="" />
+                    <label for="pct1" class="inline">虹色</label>
+                    <br />
+                    <input type="radio" name="particleColorType" id="pct2" value="1" />
+                    <label for="pct2" class="inline">指定色</label>
+                    <br />
+                </fieldset>
+
+                <div class="grid">
+                    <div class="col_6">
+                        <label for="particleColor1" class="inline">色1(早く消える方) : </label>
+                        <input id="particleColor1" value="#CCCCCC" class="color">
+                    </div>
+                    <div class="col_6">
+                        <label for="particleColor2" class="inline">色2(遅く消える方) : </label>
+                        <input id="particleColor2" value="#CCCCCC" class="color">
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="pref4" class="tab-content">
+                <!-- 高度な設定 -->
+                <p class="warning">
+                    説明で何のことかが分からない場合、設定値を変更しないことをお勧めします。
+                </p>
+
+                <div class="col_6">
+                    <label for="quantizeQuality" class="inline">クオンタイズ品質(1 〜 30) : </label>
+                    <input id="quantizeQuality" value="10">
+                    <p>
+                        jsgif内で使用されているNeuQuantに与えるquality値。小さい程クオンタイズ品質が高くなります(元の画像との誤差平均が小さくなる)が、ものすごく計算に時間が掛かります。
+                    </p>
+                </div>
+                <div class="col_6">
+                    <input type="checkbox" id="disenableSmooth" />
+                    <label for="disenableSmooth">画像拡大時に補間しない</label>
+                    <p>
+                        生成されるGIFのサイズが入力された画像サイズよりも大きい時に行われる入力画像の拡大出力において補間を行わないようにします( = 最近傍法で拡大します)。ドット絵などを使う場合などにオススメです。(一部ブラウザは対応していない可能性があります。PC版FireFox, Chromeでは利用可能です)
+                    </p>
+                </div>
+            </div>
+
+            <div class="col_12 center">
+                <button class="" id="generateButton2" style="width : 240px;" onclick="generateLikeGIF();" disabled="disabled">生成！</button>
+                <button id="downloadGIFButton2" style="width : 240px;" class="" onclick="getGIF();" disabled="disabled">GIFアニメをダウンロード</button>
+                <button id="downloadZIPButton" style="width : 240px;" class="" onclick="getZIP();" disabled="disabled">連番PNGをZIPでダウンロード</button>
+            </div>
+
+        </div>
+
+        <div style="height: 40px;">
+
+        </div>
+
+        <div class="footer">
+            <small>
+            presented by WhiteLuckers (Amigo <a href="https://twitter.com/WL_Amigo">@WL_Amigo</a>)
+            <br/> Like Effect Generator is licensed under the MIT License.
+            </small>
+        </div>
+
+        <!-- canvg SVG to Canvas Renderer -->
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/rgbcolor.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/StackBlur.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/canvg.js"></script>
+        <!-- jsgif GIF Encoder on Javascript -->
+        <script type="text/javascript" src="lib/jsgif/LZWEncoder.js"></script>
+        <script type="text/javascript" src="lib/jsgif/NeuQuant.js"></script>
+        <script type="text/javascript" src="lib/jsgif/GIFEncoderOnlyGlobal.js"></script>
+        <script type="text/javascript" src="lib/jsgif/b64.js"></script>
+        <!-- FileSaver -->
+        <script type="text/javascript" src="lib/FileSaver.min.js"></script>
+        <!-- filer.js Util -->
+        <script type="text/javascript" src="lib/filer-util.js"></script>
+        <!-- Tiny Color Picker -->
+        <script src="lib/jqColorPicker.min.js"></script>
+        <script type="text/javascript">
+            $('.color').colorPicker({
+                customBG: '#FFF',
+                opacity: false,
+            });
+        </script>
+        <!-- Main Scripts -->
+        <script type="text/javascript" src="lib/LikeEffectGenerator.js"></script>
+        <script type="text/javascript" src="lib/SVGToCanvas.js"></script>
+        <script type="text/javascript" src="lib/FrontEnd.js"></script>
+
+        <script type="text/javascript">
+            //confirmImageSize();
+            document.getElementById('generateButton1').setAttribute("disabled", "disabled");
+            document.getElementById('generateButton2').setAttribute("disabled", "disabled");
+            document.getElementById('downloadZIPButton').setAttribute("disabled", "disabled");
+            document.getElementById('downloadGIFButton1').setAttribute("disabled", "disabled");
+            document.getElementById('downloadGIFButton2').setAttribute("disabled", "disabled");
+        </script>
+
+    </body>
+
+    </html>

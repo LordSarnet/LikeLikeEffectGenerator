@@ -1,0 +1,37 @@
+ TODO
+======
+
+ * 「連番PNGをZIPでダウンロード」機能(JSZipにBase64エンコードされたデータを追加する機能がある(しかもちゃんとcanvasから画像データを得る目的との記述有り)のでそれを利用する) <- 済
+ * GIFEncoderOnlyGlobal.jsにおいて、最初に最も参考になるフレームを元にグローバルパレットを作成し、以降それを利用するようにエンコーダを書き換える <- 済
+
+
+ 参考資料
+==========
+
+canvasにローカルの画像ファイルを描画するには :
+http://d.hatena.ne.jp/oovu70/20111122/p1
+
+canvas to svg :
+http://svgopen.org/2010/papers/62-From_SVG_to_Canvas_and_Back/#canvas_to_svg
+
+javascriptでSVG生成 :
+http://www.h6.dion.ne.jp/~lib-k/SVGByJavaScript/SVGByJavaScriptDOM.html
+
+canvg (SVG to Canvas Renderer) :
+https://github.com/gabelerner/canvg
+
+javascriptで画像の本来の幅・高さを得る方法 :
+http://d.hatena.ne.jp/uupaa/20090602/1243933843
+
+画像を組み込む - canvas - html5.jp :
+http://www.html5.jp/canvas/how6.html
+
+GIFフォーマットの詳細 :
+http://www.tohoho-web.com/wwwgif.htm
+
+
+ Design
+--------
+
+ChromeでエクスプローラからファイルをD&Dする :
+http://d.hatena.ne.jp/umorigu/20120610/1339282010

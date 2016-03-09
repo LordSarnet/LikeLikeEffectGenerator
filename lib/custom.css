@@ -1,0 +1,77 @@
+/*
+  Base
+*/
+body.override {
+    padding: 0;
+    margin: 0;
+}
+
+/*
+  Heading
+*/
+div.header {
+    height: 160px;
+    width: 100%;
+    background-color: lightcoral;
+}
+
+div.header .inner {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*
+  Footer
+*/
+div.footer {
+    padding-top: 40px;
+    margin-top: 40px;
+    padding-bottom: 40px;
+    width: 100%;
+    background-color: lightcoral;
+    text-align: center;
+}
+
+/*
+  Body Designing
+*/
+.block-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+div.file-drop-area {
+    position: relative;
+    max-width: 480px;
+    height: 100px;
+}
+input.file-drop-area {
+    position: relative;
+    opacity: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+}
+div.file-drop-area .custom-design {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: lightcoral;
+    background-image: url("../res/File.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    max-width: 600px;
+    width: 100%;
+    height: 100px;
+    padding-top: 30px;
+    text-align: center;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+p.warning {
+    color: #D00;
+}
