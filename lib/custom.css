@@ -72,6 +72,6 @@ div.file-drop-area .custom-design {
     -moz-border-radius: 10px;
     border-radius: 10px;
 }
-p.warning {
+.warning {
     color: #D00;
 }
