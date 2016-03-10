@@ -1,6 +1,8 @@
  いいねボタン風エフェクトアニメジェネレータ
 ============================================
 
+[Webアプリはこちらから (Web App is available here)](http://wl-amigo.github.io/LikeLikeEffectGenerator/)
+
 (twitter's Like-like GIF animation generator)
 
 Twitterのいいねボタンを押した時っぽいGIFアニメを、好きな画像から生成出来るWebアプリです。
