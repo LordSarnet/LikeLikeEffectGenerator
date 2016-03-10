@@ -20,6 +20,7 @@ This is a web application generates GIF animation like twitter's Like button, fr
 
  * FireFox (44.0.2) on Ubuntu 14.04 LTS
  * Google Chrome (49.0.2623.75 (64-bit)) on Ubuntu 14.04 LTS
+ * Google Chrome (49.0.2623.87 (32-bit)) on Windows 7 (64-bit)
 
 
  使い方
