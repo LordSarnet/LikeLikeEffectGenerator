@@ -57,7 +57,7 @@ This is a web application generates GIF animation like twitter's Like button, fr
 
 あまり使われ無さそうな特殊な設定です。
 
- * **クオンタイズ品質** : GIFアニメの生成に使用している [jsgif]() 内で使用されている [NeuQuant]() に与える quality 値です(1 〜 30)。小さいほどクオンタイズ(減色)の品質が上がります(元の画像との誤差平均が小さくなる)が、計算にものすごい時間が掛かります。通常は10で問題ありません。
+ * **クオンタイズ品質** : GIFアニメの生成に使用している [jsgif](https://github.com/antimatter15/jsgif) 内で使用されている [NeuQuant](https://github.com/devongovett/neuquant) に与える quality 値です(1 〜 30)。小さいほどクオンタイズ(減色)の品質が上がります(元の画像との誤差平均が小さくなる)が、計算にものすごい時間が掛かります。通常は10で問題ありません。
 
 
  利用したライブラリ
