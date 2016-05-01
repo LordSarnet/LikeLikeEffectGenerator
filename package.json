@@ -1,0 +1,19 @@
+{
+  "name": "like-like-effect-generator",
+  "version": "1.0.0",
+  "description": "Twitter's Like-like effect animation GIF generator",
+  "main": "null",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WL-Amigo/LikeLikeEffectGenerator.git"
+  },
+  "author": "Amigo (WhiteLuckers)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WL-Amigo/LikeLikeEffectGenerator/issues"
+  },
+  "homepage": "https://github.com/WL-Amigo/LikeLikeEffectGenerator#readme"
+}
