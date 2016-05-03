@@ -56,35 +56,35 @@
 * 基底クラス `ParticleBase`
     * protected getBaseXY(t: number) -> { x: number, y: number } : 上記の単純物理演算を、オブジェクトに設定された初速度・初期位置を用いて実行し、XY座標を含む基礎座標を返却する
     * abstract public generateSVGTree(t: number) -> <SVG g Element> : 後述のルールに従うSVGグループノードを生成し、返却する(抽象メソッド、これを継承する各子クラスで実装)
-    * protected v0X, v0Y: number : 初速度
-    * protected x0, y0: number : 初期位置
+    * protected v0X, v0Y: number : 初速度(sip/s)
+    * protected x0, y0: number : 初期位置(sip)
     * private kX, kY: number : 空気抵抗定数(一応XY軸で別々に設定できるようにする)
-    * private vLastY: number : 最終落下速度
-    * private g: number : 重力定数(= -k × vly)
-    * protected size: number : パーティクルのサイズ(半径の長さで指定)
-    * protected lifeTime: number : 寿命
+    * private vLastY: number : 最終落下速度(sip/s)
+    * private g: number : 重力定数(= -k × vly) (sip/s^2)
+    * protected size: number : パーティクルのサイズ(半径の長さで指定)(sip)
+    * protected lifeTime: number : 寿命(s)
     * protected disappearDurationRate: number : lifeTimeに対する消失に使用される時間の割合([0,1])
     * protected color: { r,g,b: number } : 色(それぞれ8bit整数値で指定)
 * 星のパーティクルクラス `PStar`
-    * private vSpinZ, vSpinX, vSpinY: number : ZXY軸に関する回転速度(ラジアン)
-    * private initSpinZ: number : 初期Z軸回転角度(ラジアン)
+    * private vSpinZ, vSpinX, vSpinY: number : ZXY軸に関する回転速度(360deg/s, 1.0で360度/secになる)
+    * private initSpinZ: number : 初期Z軸回転角度(360deg)
     * 星形のパス、3軸回転、消滅時X軸拡大率0 を再現
 * 正方形のパーティクルクラス `PSquare`
-    * private vSpinZ, vSpinX, vSpinY: number : ZXY軸に関する回転速度(ラジアン)
-    * private initSpinZ: number : 初期Z軸回転角度(ラジアン)
+    * private vSpinZ, vSpinX, vSpinY: number : ZXY軸に関する回転速度(360deg/s)
+    * private initSpinZ: number : 初期Z軸回転角度(360deg/s)
     * 正方形のパス、3軸回転、消滅時X軸拡大率0 を再現
 * 三角形のパーティクルクラス `PTriangle`
-    * private vSpinZ, vSpinX, vSpinY: number : ZXY軸に関する回転速度(ラジアン)
-    * private initSpinZ: number : 初期Z軸回転角度(ラジアン)
+    * private vSpinZ, vSpinX, vSpinY: number : ZXY軸に関する回転速度(360deg/s)
+    * private initSpinZ: number : 初期Z軸回転角度(360deg/s)
     * 正三角形のパス、3軸回転、消滅時X軸拡大率0 を再現
 * 正円のパーティクルクラス `PCircle`
     * 正円のパス、消滅時単純拡大率0 を再現
 * ポップサークルのパーティクルクラス `PPopCircle`
     * 通常仕様のポップサークルと同じ(但し、lifeTime, disappearDurationRate に対応)
 * リボンのパーティクルクラス `PRibbon`
-    * private vSpinZ: number : Z軸に関する回転速度(ラジアン)
+    * private vSpinZ: number : Z軸に関する回転速度(360deg/s)
     * private innerRadiusRate: number: 内径のサイズに対する比率([0,1])(外径は1とする)
-    * private popDuration: number : 消滅時のポップエフェクトの長さを指定(定数)
+    * private popDuration: number : 消滅時のポップエフェクトの長さを指定(定数)(sec)
     * 扇型のパス を再現(データ内容は多分次の通り)
         * …と思ったけど、これもしかして 単なる円弧＋端形状丸＋線幅太め で良いのでは？
         * 資料をよく見るとどうも端形状は丸になっているので、これを全部パスで表現するのは相当キツい
