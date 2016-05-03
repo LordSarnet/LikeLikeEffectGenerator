@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es5",
-        "module": "commonjs",
+        "module": "system",
         "moduleResolution": "node",
         "isolatedModules": false,
         "jsx": "react",
@@ -12,6 +12,7 @@
         "noImplicitUseStrict": false,
         "removeComments": true,
         "noLib": false,
+        "outDir": "../lib/LLEAG10th/",
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true
     },
@@ -23,6 +24,6 @@
     "compileOnSave": true,
     "buildOnSave": false,
     "atom": {
-        "rewriteTsconfig": false
+        "rewriteTsconfig": true
     }
 }
