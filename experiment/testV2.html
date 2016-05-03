@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html>
+
+    <head>
+        <title>Like Effect Generator</title>
+        <style type="text/css">
+        body {
+            background : white;
+        }
+        </style>
+    </head>
+
+    <body>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.3.0/svg.min.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/rgbcolor.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/StackBlur.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/canvg.js"></script>
+        <script type="text/javascript" src="../lib/SVGToCanvas.js"></script>
+
+        <script type="text/javascript" src="../lib/LLEAG10th/ParticleBase.js"></script>
+        <script type="text/javascript" src="../lib/LLEAG10th/PStar.js"></script>
+
+        <div>
+            <span id="frame1"></span>
+            <span id="frame2"></span>
+            <span id="frame3"></span>
+            <span id="frame4"></span>
+            <span id="frame5"></span>
+            <span id="frame6"></span>
+            <span id="frame7"></span>
+            <span id="frame8"></span>
+        </div>
+        <div>
+            <span id="frame9"></span>
+            <span id="frame10"></span>
+            <span id="frame11"></span>
+            <span id="frame12"></span>
+            <span id="frame13"></span>
+            <span id="frame14"></span>
+            <span id="frame15"></span>
+            <span id="frame16"></span>
+        </div>
+        <div>
+            <span id="frame17"></span>
+            <span id="frame18"></span>
+            <span id="frame19"></span>
+            <span id="frame20"></span>
+            <span id="frame21"></span>
+            <span id="frame22"></span>
+            <span id="frame23"></span>
+            <span id="frame24"></span>
+        </div>
+        <div>
+            <span id="frame25"></span>
+            <span id="frame26"></span>
+            <span id="frame27"></span>
+            <span id="frame28"></span>
+            <span id="frame29"></span>
+            <span id="frame30"></span>
+            <span id="frame31"></span>
+            <span id="frame32"></span>
+        </div>
+
+
+
+        <textarea id="svgSource" cols="60" rows="10"></textarea>
+
+        <script language="JavaScript" type="text/javascript">
+        var svgText = "";
+        var particleObject = new LLEAG.PStar({
+            x0: 0,
+            y0: 20,
+            v0X: 0,
+            v0Y: -30,
+            size: 10,
+            lifeTime: 2.5,
+            disappearDurationRate: 0.1,
+            color: { r: 64, g: 64, b: 255 },
+            vSpinX: 0,
+            vSpinY: 0,
+            vSpinZ: 0.05,
+            initSpinZ: 0.05
+        });
+        for(var i = 1;i <= 30; i++){
+            var drawer = SVG("frame" + i.toString());
+            drawer.viewbox(-50,-20,100,100).size(100,100);
+            var particleSVGGroup = particleObject.generateSVGTree(i / 10.0);
+            if(particleSVGGroup != null) drawer.group().add(particleSVGGroup);
+            svgText += '\n<?xml version="1.0"?>\n' + drawer.svg();
+        }
+        svgSource = document.getElementById('svgSource');
+        svgSource.value = svgText;
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html>
+
+    <head>
+        <title>Like Effect Generator</title>
+        <style type="text/css">
+        body {
+            background : white;
+        }
+        </style>
+    </head>
+
+    <body>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/2.3.0/svg.min.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/rgbcolor.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/StackBlur.js"></script>
+        <script type="text/javascript" src="http://gabelerner.github.io/canvg/canvg.js"></script>
+        <script type="text/javascript" src="../lib/jsgif/LZWEncoder.js"></script>
+        <script type="text/javascript" src="../lib/jsgif/NeuQuant.js"></script>
+        <script type="text/javascript" src="../lib/jsgif/GIFEncoder.js"></script>
+        <script type="text/javascript" src="../lib/jsgif/b64.js"></script>
+        <script type="text/javascript" src="../lib/SVGToCanvas.js"></script>
+
+        <script type="text/javascript" src="../lib/LLEAG10th/ParticleBase.js"></script>
+        <script type="text/javascript" src="../lib/LLEAG10th/PStar.js"></script>
+
+        <div id="col">
+
+        </div>
+
+        <script language="JavaScript" type="text/javascript">
+        var outSize = 200;
+
+        var tempBlock = document.createElement('img');
+        var encoder = new GIFEncoder();
+        encoder.setRepeat(0);
+        encoder.setFrameRate(25.0);
+        encoder.setQuality(10);
+        encoder.start();
+
+        var particleObject = new LLEAG.PStar({
+            x0: 0,
+            y0: 20,
+            v0X: 20,
+            v0Y: -250,
+            size: 5,
+            lifeTime: 2.5,
+            disappearDurationRate: 0.1,
+            color: { r: 64, g: 64, b: 255 },
+            vSpinX: 0.5,
+            vSpinY: 0,
+            vSpinZ: 0.3,
+            initSpinZ: 0.05
+        });
+
+        for(var idx = 1;idx <= 120; idx++){
+            var drawer = SVG(document.createElement("div"));
+            drawer.viewbox(-50,-20,100,100).size(outSize,outSize);
+            drawer.rect(100,100).translate(-50,-20).fill("#FFF").stroke({ color: "#000", width: 4 });
+            var particleSVGGroup = particleObject.generateSVGTree(idx / 25.0);
+            if(particleSVGGroup != null){
+                drawer.group().add(particleSVGGroup);
+                var canvasBlock = generateCanvasFromSVG(drawer.svg(), outSize);
+                // document.getElementById('col').appendChild(canvasBlock);
+                encoder.addFrame(canvasBlock.getContext('2d'));
+            }
+
+        }
+
+        encoder.finish();
+        var binaryGIF = encoder.stream().getData(); //notice this is different from the as3gif package!
+        var dataURL = 'data:image/gif;base64,' + encode64(binaryGIF);
+
+        tempBlock.src = dataURL;
+        document.getElementById('col').appendChild(tempBlock);
+
+        </script>
+    </body>
+
+</html>
