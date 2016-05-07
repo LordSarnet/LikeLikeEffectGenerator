@@ -121,7 +121,7 @@ namespace LLEAG {
             }
             sampleFrame = tempArray;
 
-            for (let upIndex = 0; upIndex < 30; upIndex++) {
+            for (let upIndex = 0; upIndex < Math.round(frameRate * 0.6); upIndex++) {
                 canvases.unshift(unpushedIcon);
             }
         }
