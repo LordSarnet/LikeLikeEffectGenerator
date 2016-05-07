@@ -130,6 +130,20 @@
                             「押されていない時風の画像を付加する」は、透明度が設定されている画像のみ正常に動作します。
                         </p>
                     </div>
+                    <div class="col_6">
+                        <label for="iconScaleRate" class="inline">出現画像の拡大率(%)</label>
+                        <input id="iconScaleRate" value="80">
+                        <p>
+                            出現画像の拡大率を調整できます。大きくすると出現画像が大きく出力されるようになりますが、画像によってははみ出たりします。透過付きの画像を使う時の簡易調整などにオススメです。
+                        </p>
+                    </div>
+                    <div class="col_6">
+                        <input type="checkbox" id="illustPriorQuantize" />
+                        <label for="illustPriorQuantize" class="inline">入力画像優先でクオンタイズを行う</label>
+                        <p>
+                            エフェクトよりも入力画像の色に合わせるように減色を行うようにします。出現画像の色が良くなる…かも知れません。
+                        </p>
+                    </div>
                     <div class="col_12">
                         <input type="checkbox" id="disenableSmooth" />
                         <label for="disenableSmooth">画像拡大時に補間しない</label>
