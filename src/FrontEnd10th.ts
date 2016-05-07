@@ -155,6 +155,51 @@ namespace LLEAG {
 
     }
 
+    export function confirmImageSize() {
+        var kSVGNS = 'http://www.w3.org/2000/svg';
+
+        var size = parseInt((<HTMLInputElement>document.getElementById('generateSize')).value);
+        if (isNaN(size)) {
+            alert("サイズは半角数字のみで入力して下さい。");
+            return false;
+        }
+
+        var svgBlock = document.createElementNS(kSVGNS, 'svg');
+        svgBlock.setAttribute('width', size.toString());
+        svgBlock.setAttribute('height', size.toString());
+        svgBlock.setAttribute('viewBox', '0 0 ' + size + ' ' + size);
+        svgBlock.setAttribute('xmlns', kSVGNS);
+        svgBlock.setAttribute('version', '1.1');
+
+        var rectBlock = document.createElementNS(kSVGNS, 'rect');
+        rectBlock.setAttribute('x', '0');
+        rectBlock.setAttribute('y', '0');
+        rectBlock.setAttribute('width', size.toString());
+        rectBlock.setAttribute('height', size.toString());
+        rectBlock.setAttribute('stroke', '#CCC');
+        rectBlock.setAttribute('stroke-width', '4');
+        rectBlock.setAttribute('fill', 'none');
+        svgBlock.appendChild(rectBlock);
+
+        var textBlock = document.createElementNS(kSVGNS, 'text');
+        textBlock.setAttribute('x', (size / 2).toString());
+        textBlock.setAttribute('y', (size / 2).toString());
+        textBlock.setAttribute('text-anchor', 'middle');
+        textBlock.setAttribute('font-family', 'sans-serif');
+        textBlock.setAttribute('font-size', '20');
+        textBlock.setAttribute('fill', '#CCC');
+        textBlock.innerHTML = size.toString() + ' x ' + size.toString();
+        svgBlock.appendChild(textBlock);
+
+        var tempBlock = document.createElement('span');
+        tempBlock.appendChild(svgBlock);
+        var canvasBlock = generateCanvasFromSVG(tempBlock.innerHTML, size);
+
+        var targetImgBlock = <HTMLImageElement>document.getElementById('targetImg');
+        targetImgBlock.src = canvasBlock.toDataURL();
+        targetImgBlock.setAttribute("style", "display: block;");
+    }
+
     export function getTrimmedIconCanvas(imgBlock: HTMLImageElement) {
         var imgLongEdge = imgBlock.naturalWidth > imgBlock.naturalHeight ? imgBlock.naturalWidth : imgBlock.naturalHeight;
 

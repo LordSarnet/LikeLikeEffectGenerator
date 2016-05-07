@@ -83,10 +83,7 @@
 
             <h4>もっと細かくいじる</h4>
             <ul class="tabs left">
-                <li><a href="#pref1">出現画像</a></li>
-                <li><a href="#pref2">弾ける大きな丸のエフェクト</a></li>
-                <li><a href="#pref3">飛び散る小さな丸のエフェクト</a></li>
-                <li><a href="#pref4">高度な設定</a></li>
+                <li><a href="#pref1">基本設定</a></li>
             </ul>
 
             <div id="pref1" class="tab-content">
@@ -96,7 +93,7 @@
                         <label for="generateSize" class="inline">出力サイズ(px) : </label>
                         <input id="generateSize" value="200">
                         <span style="width: 20px;"></span>
-                        <button class="orange" onclick="confirmImageSize();">出力サイズを確認する</button>
+                        <button class="orange" onclick="LLEAG.confirmImageSize();">出力サイズを確認する</button>
                         <p class="tips">
                             Twitterへの投稿時は500px以上がオススメです。
                         </p>
@@ -126,45 +123,6 @@
                         </p>
                     </div>
                 </div>
-            </div>
-
-            <div id="pref2" class="tab-content">
-                <!-- 大きい丸のエフェクト -->
-                <div class="grid">
-                    <div class="col_6">
-                        <label for="popCircleStartColor" class="inline">出現時の色 : </label>
-                        <input id="popCircleStartColor" value="#DA0B3F" class="color">
-                    </div>
-                    <div class="col_6">
-                        <label for="popCircleEndColor" class="inline">消滅時の色 : </label>
-                        <input id="popCircleEndColor" value="#D7AAED" class="color">
-                    </div>
-                </div>
-            </div>
-
-            <div id="pref3" class="tab-content">
-                <!-- 小さい丸のエフェクト -->
-                <fieldset>
-                    <legend>色の付け方</legend>
-                    <input type="radio" name="particleColorType" id="pct1" value="0" checked="" />
-                    <label for="pct1" class="inline">虹色</label>
-                    <br />
-                    <input type="radio" name="particleColorType" id="pct2" value="1" />
-                    <label for="pct2" class="inline">指定色</label>
-                    <br />
-                </fieldset>
-
-                <div class="grid">
-                    <div class="col_6">
-                        <label for="particleColor1" class="inline">色1(早く消える方) : </label>
-                        <input id="particleColor1" value="#CCCCCC" class="color">
-                    </div>
-                    <div class="col_6">
-                        <label for="particleColor2" class="inline">色2(遅く消える方) : </label>
-                        <input id="particleColor2" value="#CCCCCC" class="color">
-                    </div>
-                </div>
-
             </div>
 
             <div id="pref4" class="tab-content">
