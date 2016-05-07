@@ -13,6 +13,7 @@
         "removeComments": true,
         "noLib": false,
         "outDir": "../lib/LLEAG10th/",
+        "outFile": "../lib/LikeEffectGenerator10th.js",
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true
     },

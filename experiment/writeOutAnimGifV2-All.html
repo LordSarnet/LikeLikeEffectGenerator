@@ -33,13 +33,14 @@
     <script type="text/javascript" src="../lib/LLEAG10th/PCircle.js"></script>
     <script type="text/javascript" src="../lib/LLEAG10th/PPopCircle.js"></script>
     <script type="text/javascript" src="../lib/LLEAG10th/PRibbon.js"></script>
+    <script type="text/javascript" src="../lib/LLEAG10th/ParticlePreset1.js"></script>
 
     <div id="col">
 
     </div>
 
     <script language="JavaScript" type="text/javascript">
-        var outSize = 200;
+        var outSize = 400;
 
         var tempBlock = document.createElement('img');
         var encoder = new GIFEncoder();
@@ -48,100 +49,7 @@
         encoder.setQuality(10);
         encoder.start();
 
-        var ribbonPLEffect = new LLEAG.PopLineEffect({
-            lifeTime: 0.8,
-            lineWidthFactor: 0.05
-        });
-        var particleObjects = [
-            new LLEAG.PStar({
-                v0X: 20,
-                v0Y: -250,
-                size: 5,
-                lifeTime: 2.5,
-                disappearDurationRate: 0.1,
-                color: {
-                    r: 64,
-                    g: 64,
-                    b: 255
-                },
-                vSpinX: 0.5,
-                vSpinY: 0,
-                vSpinZ: 0.3,
-                initSpinZ: 0.05
-            }),
-            new LLEAG.PSquare({
-                v0X: -20,
-                v0Y: -220,
-                size: 2.5,
-                lifeTime: 2.0,
-                disappearDurationRate: 0.1,
-                color: {
-                    r: 64,
-                    g: 64,
-                    b: 255
-                },
-                vSpinX: 0.2,
-                vSpinY: 0,
-                vSpinZ: 0.6,
-                initSpinZ: 0.25
-            }),
-            new LLEAG.PTriangle({
-                v0X: -30,
-                v0Y: -200,
-                size: 4,
-                lifeTime: 2.2,
-                disappearDurationRate: 0.1,
-                color: {
-                    r: 64,
-                    g: 64,
-                    b: 255
-                },
-                vSpinX: 0.3,
-                vSpinY: 0,
-                vSpinZ: 0.5,
-                initSpinZ: 0.25
-            }),
-            new LLEAG.PCircle({
-                v0X: 25,
-                v0Y: -100,
-                size: 6,
-                lifeTime: 2.0,
-                disappearDurationRate: 0.1,
-                color: {
-                    r: 64,
-                    g: 64,
-                    b: 255
-                }
-            }),
-            new LLEAG.PPopCircle({
-                v0X: 10,
-                v0Y: -50,
-                size: 6,
-                lifeTime: 1.8,
-                disappearDurationRate: 0.2,
-                color: {
-                    r: 64,
-                    g: 64,
-                    b: 255
-                }
-            }),
-            new LLEAG.PRibbon({
-                v0X: -10,
-                v0Y: -80,
-                size: 6,
-                lifeTime: 2.1,
-                disappearDurationRate: 0.5,
-                color: {
-                    r: 64,
-                    g: 64,
-                    b: 255
-                },
-                vSpinZ: 0.1,
-                initSpinZ: 0.4,
-                lineWidth: 3,
-                popLineEffectInstance: ribbonPLEffect,
-            })
-        ];
+        var particleObjects = LLEAG.setAndGetPreset1();
         var appearingPLEffect = new LLEAG.PopLineEffect({
             lifeTime: 0.8,
             lineWidthFactor: 0.05
@@ -149,10 +57,10 @@
 
         for (var idx = 1; idx <= 75; idx++) {
             var drawer = SVG(document.createElement("div"));
-            drawer.viewbox(-50, -80, 100, 100).size(outSize, outSize);
-            drawer.rect(100, 100).translate(-50, -80).fill("#FFF").stroke({
+            drawer.viewbox(-30, -40, 60, 60).size(outSize, outSize);
+            drawer.rect(60, 60).translate(-30, -40).fill("#FFF").stroke({
                 color: "#000",
-                width: 4
+                width: 2
             });
 
             var PLEffectSVGGroup = appearingPLEffect.generateSVGTree(idx / 25.0, 20);

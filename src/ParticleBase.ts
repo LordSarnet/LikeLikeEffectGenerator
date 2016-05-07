@@ -2,13 +2,13 @@
 /// <reference path="./Structures.ts"/>
 
 namespace LLEAG {
-    const kX: number = 1;
-    const kY: number = 4.5;
-    const vLastY: number = -20.0;
-    const g: number = kY * -vLastY;
+    export let kX: number = 1;
+    export let kY: number = 4.5;
+    export let vLastY: number = -20.0;
+    //export let g: number = kY * -vLastY;
 
-    const defaultX0: number = 0.0;
-    const defaultY0: number = 20.0;
+    export let defaultX0: number = 0.0;
+    export let defaultY0: number = -40.0;
 
     export interface PBaseOptions{
         x0?: number;
@@ -42,6 +42,7 @@ namespace LLEAG {
             this.lifeTime = options.lifeTime;
             this.disappearDurationRate = options.disappearDurationRate;
             this.color = options.color;
+            if(!this.checkColorConsistency()) throw "out of color range";
         }
 
         protected getBaseXY(t: number): Point {
@@ -49,28 +50,21 @@ namespace LLEAG {
             // y = - ((k v0y + g) / k^2) e^(-kt) - g/k t + (y0 + ((k v0y + g) / k^2))
             let retP: Point = { x: 0, y: 0 };
             retP.x = (this.v0X / kX) * (1.0 - Math.exp(-kX * t)) + this.x0;
-            let c0 = ((kY * this.v0Y + g) / (kY * kY))
+            let c0 = ((this.v0Y - vLastY) / kY)
             retP.y = c0 * (1.0 - Math.exp(-kY * t)) - vLastY * t + this.y0;
 
             return retP;
         }
 
-        protected getHexColor(): string {
-            // solution from http://stackoverflow.com/a/4090628
-            let rs = ("0" + this.color.r.toString(16)).slice(-2);
-            let gs = ("0" + this.color.g.toString(16)).slice(-2);
-            let bs = ("0" + this.color.b.toString(16)).slice(-2);
-
-            return "#" + rs + gs + bs;
-        }
-
-        public generateSVGTree(t: number): svgjs.G {
-            return null;
-        };
+        public abstract generateSVGTree(t: number): svgjs.G;
 
         private checkColorConsistency(): boolean {
             return this.color.r <= 255 && this.color.g <= 255 && this.color.b <= 255 &&
                     this.color.r >= 0 && this.color.g >= 0 && this.color.b >= 0;
+        }
+
+        protected calcDisappearingRate(t: number): number {
+            return (t > this.lifeTime * (1.0 - this.disappearDurationRate)) ? (this.lifeTime - t) / (this.lifeTime * this.disappearDurationRate) : 1.0;
         }
     }
 }

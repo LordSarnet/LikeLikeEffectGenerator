@@ -83,8 +83,9 @@
     * 通常仕様のポップサークルと同じ(但し、lifeTime, disappearDurationRate に対応)
 * リボンのパーティクルクラス `PRibbon`
     * private vSpinZ: number : Z軸に関する回転速度(360deg/s)
-    * private innerRadiusRate: number: 内径のサイズに対する比率([0,1])(外径は1とする)
-    * private popDuration: number : 消滅時のポップエフェクトの長さを指定(定数)(sec)
+    * private initSpinZ: number : 初期Z軸回転角度(360deg/s)
+    * private lineWidth: number : 線幅(sip)
+    * private PopLineEffectInstance: PopLineEffect : ポップエフェクトオブジェクトのインスタンス
     * 扇型のパス を再現(データ内容は多分次の通り)
         * …と思ったけど、これもしかして 単なる円弧＋端形状丸＋線幅太め で良いのでは？
         * 資料をよく見るとどうも端形状は丸になっているので、これを全部パスで表現するのは相当キツい
@@ -117,12 +118,12 @@
 
 * viewport
     * x : -50, 50 (w : 100)
-    * y : -20, 80 (h : 100)
+    * y : -80, 20 (h : 100) *座標系が右手系でないことに注意*
 * 単位はsip(scale independent pixels)
 * 最終的にcanvasへ描画する直前までは、このviewportの座標範囲で描画を行う
 * 生成サイズ(短辺指定) / w の倍率で拡大する(最終的に生成されたSVGノード群をグループ化して、`transform="scale(<m>,<m>)"`属性を付与)
     * もしかしたら、viewBoxを上のviewportの通りに指定した上で、width/height を適切に設定すれば、それだけでうまく行くかも？
-* 出現画像は、上記viewport上で ([-10,10], [-10,10]) に収まるように配置
+* 出現画像は、上記viewport上で ([-18,18], [-18,18]) に収まるように配置
 * 回転は、Z軸方向に関しては`transform="rotate(<r>)"`、XY軸方向に関しては`transform="scale(<cos(ry),cos(rx)>)"`で表現
 * 時間はフレーム単位ではなく実時間(sec)で表現し、実際の出力時は 1 / フレームレート の間隔でSVGを取得し、それを各フレームの内容とする。
 

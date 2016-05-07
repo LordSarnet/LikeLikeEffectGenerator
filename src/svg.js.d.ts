@@ -131,6 +131,7 @@ declare namespace svgjs {
     export interface Container extends Parent {
         viewbox(): ViewBox;
         viewbox(v): this;
+        viewbox(x:number ,y: number ,w: number ,h:number );
     }
     interface Library { Container(): void }
 
@@ -244,6 +245,7 @@ declare namespace svgjs {
         native(): LinkedHTMLElement;
 
         svg(svg: string): this;
+        svg(): string;
         is(cls: any): boolean;
     }
     interface Library { Element(): void; }
