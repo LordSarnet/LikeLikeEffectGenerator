@@ -78,3 +78,13 @@ div.file-drop-area .custom-design {
 .tips {
     color: #25c;
 }
+.mode-select {
+    color: #ff589f;
+}
+.mode-select a:link,
+.mode-select a:hover,
+.mode-select a:active,
+.mode-select a:visited {
+    color: #ff589f;
+    text-decoration: none;
+}
