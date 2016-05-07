@@ -42,7 +42,7 @@ namespace LLEAG {
         let unpushedIcon = undefined;
         if (enableUnpushed) {
             unpushedIcon = getMonochromeIconCanvas(iconImg, 0.7);
-            unpushedIcon = getCenterScaledCanvas(unpushedIcon, size, iconScaleRate, disenableSmooth, 0, size / 6);
+            unpushedIcon = getCenterScaledCanvas(unpushedIcon, size, iconScaleRate, disenableSmooth, 0, size / 15 * 2);
             unpushedIcon = getWhiteBackgroundCanvas(unpushedIcon);
         }
 
@@ -51,7 +51,7 @@ namespace LLEAG {
         let svgXMLStringsParticle: Array<string> = [];
         let particlePreset = setAndGetPreset1();
         let drawer = SVG(document.createElement("div"));
-        drawer.viewbox(-30, -40, 60, 60).size(size, size);
+        drawer.viewbox(-30, -38, 60, 60).size(size, size);
         let appearingPLEffect = new PopLineEffect({
             lifeTime: 0.8,
             lineWidthFactor: 0.05
@@ -198,7 +198,7 @@ namespace LLEAG {
         }
 
         let dx = (canvasSize - dw) / 2.0;
-        let dy = canvasSize / 3 * 2 - dh / 2 + jumpY;
+        let dy = canvasSize / 30 * 19 - dh / 2 + jumpY;
 
         context.drawImage(iconImg, 0, 0, imgWidth, imgHeight, dx, dy, dw, dh);
 
