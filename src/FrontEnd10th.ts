@@ -13,21 +13,27 @@ namespace LLEAG {
     export function generateLikeGIF10th() {
         // setting local valiables
         let size = parseInt((<HTMLInputElement>document.getElementById("generateSize")).value);
-        if(isNaN(size)){
+        if (isNaN(size)) {
             size = defaultSize;
         }
 
         let trimmingCircle = (<HTMLInputElement>document.getElementById("trimmingCircle")).checked;
         let enableUnpushed = (<HTMLInputElement>document.getElementById("enableUnpushed")).checked;
         let disenableSmooth = (<HTMLInputElement>document.getElementById("disenableSmooth")).checked;
-        // let frameRateDouble = (<HTMLInputElement>document.getElementById("frameRateDouble")).checked;
-        let frameRate = 25//frameRateDouble ? 50.0 : 25.0;
+        let frameRateDouble = (<HTMLInputElement>document.getElementById("frameRateDouble")).checked;
+        let frameRate = frameRateDouble ? 50.0 : 25.0;
+        let iconScaleRate = parseInt((<HTMLInputElement>document.getElementById("iconScaleRate")).value) / 100.0;
+        if(isNaN(iconScaleRate)){
+            iconScaleRate = 0.6;
+        }
+        let illustPriorQuantize = (<HTMLInputElement>document.getElementById("illustPriorQuantize")).checked;;
 
         let iconImg: HTMLImageElement | HTMLCanvasElement = (<HTMLImageElement>document.getElementById("iconImg"))
-        if(iconImg == null){
+        if (iconImg == null) {
             alert("アイコンに使用する画像が読み込まれていません。");
             return;
         }
+
 
         // trimming image with circle
         if (trimmingCircle) iconImg = getTrimmedIconCanvas(iconImg);
@@ -36,7 +42,7 @@ namespace LLEAG {
         let unpushedIcon = undefined;
         if (enableUnpushed) {
             unpushedIcon = getMonochromeIconCanvas(iconImg, 0.7);
-            unpushedIcon = getCenterScaledCanvas(unpushedIcon, size, 0.8, disenableSmooth);
+            unpushedIcon = getCenterScaledCanvas(unpushedIcon, size, iconScaleRate, disenableSmooth, 0, size / 6);
             unpushedIcon = getWhiteBackgroundCanvas(unpushedIcon);
         }
 
@@ -56,7 +62,7 @@ namespace LLEAG {
             // generate SVG Frame (PopLineEffect)
             let svgGroup = appearingPLEffect.generateSVGTree(idx / frameRate, 20);
             let canvasBlockPLE = null;
-            if(svgGroup != null){
+            if (svgGroup != null) {
                 drawer.clear(); // reset content
                 svgGroup = drawer.group().add(svgGroup);
                 svgXMLStringsPLE.push(drawer.svg());
@@ -66,7 +72,7 @@ namespace LLEAG {
             // generate SVG Frame (Particle)
             drawer.clear(); // reset content
             svgGroup = drawer.group();
-            for(let poIndex = 0; poIndex < particlePreset.length; poIndex++){
+            for (let poIndex = 0; poIndex < particlePreset.length; poIndex++) {
                 let particleSVGGroup = particlePreset[poIndex].generateSVGTree(idx / frameRate);
                 if (particleSVGGroup != null) {
                     drawer.group().add(particleSVGGroup);
@@ -79,7 +85,7 @@ namespace LLEAG {
             let canvasBlockIcon = document.createElement('canvas');
             canvasBlockIcon.width = size;
             canvasBlockIcon.height = size;
-            generateIconAnimationOnCanvas(idx, canvasBlockIcon, iconImg, disenableSmooth);
+            generateIconAnimationOnCanvas(idx / frameRate, canvasBlockIcon, iconImg, disenableSmooth, iconScaleRate);
 
             // composite all canvases
             let canvasBlock = document.createElement("canvas");
@@ -88,8 +94,8 @@ namespace LLEAG {
             let canvasBlockCtx = canvasBlock.getContext("2d");
             canvasBlockCtx.fillStyle = "#FFF";
             canvasBlockCtx.fillRect(0, 0, size, size);
-            if(canvasBlockPLE != null) canvasBlockCtx.drawImage(canvasBlockPLE, 0, 0);
-            //canvasBlockCtx.drawImage(canvasBlockIcon, 0, 0);
+            if (canvasBlockPLE != null) canvasBlockCtx.drawImage(canvasBlockPLE, 0, 0);
+            canvasBlockCtx.drawImage(canvasBlockIcon, 0, 0);
             canvasBlockCtx.drawImage(canvasBlockParticle, 0, 0);
             canvasBlockCtx = null; // dispose canvasBlock context
             canvasBlockPLE = null;
@@ -101,7 +107,13 @@ namespace LLEAG {
         }
 
         // set global pallete
-        let sampleFrame = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 19, 20, 21];
+        let sampleFrame = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, ];
+        if(illustPriorQuantize) sampleFrame = [0, 1, 2, 3, 4, 5, 12, 13, 14, 15, 16, 70, 70, 70, 70, 70, 70];
+        if(frameRateDouble){
+            for(let sfIndex = 0; sfIndex < sampleFrame.length; sfIndex++){
+                sampleFrame[sfIndex] = sampleFrame[sfIndex] * 2;
+            }
+        }
         if (enableUnpushed) {
             let tempArray = [0];
             for (let sfIndex = 0; sfIndex < sampleFrame.length; sfIndex++) {
@@ -151,7 +163,44 @@ namespace LLEAG {
 
     }
 
-    export function generateIconAnimationOnCanvas(t:number, canvasBlock: HTMLCanvasElement, iconImg: HTMLImageElement | HTMLCanvasElement, disenableSmooth: boolean){
+    export function generateIconAnimationOnCanvas(t: number, canvasBlock: HTMLCanvasElement, iconImg: HTMLImageElement | HTMLCanvasElement, disenableSmooth: boolean, scaleRate: number) {
+        //var imgDataURL = imgBlock.src;
+        let imgWidth = (<HTMLImageElement>iconImg).naturalWidth || iconImg.width;
+        let imgHeight = (<HTMLImageElement>iconImg).naturalHeight || iconImg.height;
+        let imgLongEdge = imgWidth > imgHeight ? imgWidth : imgHeight;
+        let canvasSize = canvasBlock.width;
+
+        let baseRadius = canvasSize * scaleRate / 2;
+
+        let period = 0.4;
+        let jumpY = 0;
+        let upperJumpFactor = 0.12;
+        let downerJumpFactor = 1;
+
+        let context = canvasBlock.getContext('2d');
+        if (disenableSmooth) {
+            (<any>context).mozImageSmoothingEnabled = false; // DIRTY : to avoid error
+            (<any>context).webkitImageSmoothingEnabled = false; // DIRTY : to avoid error
+            context.msImageSmoothingEnabled = false;
+            (<any>context).imageSmoothingEnabled = false; // DIRTY : to avoid error
+        }
+        let dw = 1.0 * imgWidth / imgLongEdge * baseRadius * 2.0;
+        let dh = 1.0 * imgHeight / imgLongEdge * baseRadius * 2.0;
+
+        // calcurate jumpY
+        if(t < period){
+            let jumpRealT = t - period / 2;
+            let jumpT = jumpRealT * 4 / period;
+            jumpY = (jumpT * jumpT - 4) * dh * upperJumpFactor;
+        } else if(t >= period && t < period * 2){
+            let jumpT = t - period / 2 * 3;
+            jumpY = -(jumpT * jumpT - (period * period / 4)) * dh * downerJumpFactor;
+        }
+
+        let dx = (canvasSize - dw) / 2.0;
+        let dy = canvasSize / 3 * 2 - dh / 2 + jumpY;
+
+        context.drawImage(iconImg, 0, 0, imgWidth, imgHeight, dx, dy, dw, dh);
 
     }
 
@@ -244,7 +293,7 @@ namespace LLEAG {
         return retCanvas;
     }
 
-    export function getCenterScaledCanvas(imgBlock: HTMLImageElement | HTMLCanvasElement, size: number, scale: number, disenableSmooth: boolean) {
+    export function getCenterScaledCanvas(imgBlock: HTMLImageElement | HTMLCanvasElement, size: number, scale: number, disenableSmooth: boolean, cx?: number, cy?: number) {
         var retCanvas = document.createElement('canvas');
         retCanvas.width = retCanvas.height = size;
 
@@ -253,8 +302,10 @@ namespace LLEAG {
         var imgLongEdge = imgWidth > imgHeight ? imgWidth : imgHeight;
         var dw = imgWidth / imgLongEdge * size * scale;
         var dh = imgHeight / imgLongEdge * size * scale;
-        var dx = (size - dw) / 2.0;
-        var dy = (size - dh) / 2.0;
+        cx = cx || 0;
+        cy = cy || 0;
+        var dx = (size - dw) / 2.0 + cx;
+        var dy = (size - dh) / 2.0 + cy;
 
         var context = (<any>retCanvas.getContext('2d')); // to use imageSmoothingEnabled
         if (disenableSmooth) {
@@ -285,13 +336,13 @@ namespace LLEAG {
     }
 
     declare function canvg(c: HTMLCanvasElement, svgSource: string, options?: any);
-    export function generateCanvasFromSVG(svgSource: string, size: number){
+    export function generateCanvasFromSVG(svgSource: string, size: number) {
 
         var ret = document.createElement('canvas');
         ret.width = size;
         ret.height = size;
 
-        canvg(ret, svgSource, { useCORS : true });
+        canvg(ret, svgSource, { useCORS: true });
 
         return ret;
 
